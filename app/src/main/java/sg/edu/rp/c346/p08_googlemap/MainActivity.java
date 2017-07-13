@@ -1,5 +1,7 @@
 package sg.edu.rp.c346.p08_googlemap;
 
+import android.Manifest;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
@@ -50,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
                 map = googleMap;
 
 
-
                 UiSettings ui = map.getUiSettings();
                 ui.setCompassEnabled(true);
                 ui.setZoomControlsEnabled(true);
@@ -58,10 +59,20 @@ public class MainActivity extends AppCompatActivity {
                 int permissionCheck = ContextCompat.checkSelfPermission(MainActivity.this,
                         android.Manifest.permission.ACCESS_FINE_LOCATION);
 
+//                if (permissionCheck != PermissionChecker.PERMISSION_GRANTED) {
+//                    ActivityCompat.requestPermissions(MainActivity.this,
+//                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+//                    // stops the action from proceeding further as permission not
+//                    //  granted yet
+//                    return;
+//                }
+
                 if (permissionCheck == PermissionChecker.PERMISSION_GRANTED) {
                     map.setMyLocationEnabled(true);
                 } else {
                     Log.e("GMap - Permission", "GPS access has not been granted");
+                    ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},2);
+
                 }
 
                 LatLng poi_north = new LatLng(1.449111, 103.818495);
@@ -170,24 +181,25 @@ public class MainActivity extends AppCompatActivity {
                 // On selecting a spinner item
                 String item = parent.getItemAtPosition(position).toString();
 
-                if(item.toString() == "NORTH"){
+                if (item.toString() == "NORTH") {
                     LatLng poi_north = new LatLng(1.449111, 103.818495);
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_north,
                             15));
-                } else if(item.toString() == "CENTRAL"){
+                } else if (item.toString() == "CENTRAL") {
                     LatLng poi_central = new LatLng(1.297802, 103.847441);
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_central,
                             15));
-                }else if(item.toString() == "EAST"){
+                } else if (item.toString() == "EAST") {
                     LatLng poi_east = new LatLng(1.367149, 103.928021);
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_east,
                             15));
-                }else{
+                } else {
                     LatLng poi_Singapore = new LatLng(1.3521, 103.8198);
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_Singapore,
                             10));
                 }
             }
+
             public void onNothingSelected(AdapterView<?> arg0) {
                 // TODO Auto-generated method stub
             }
