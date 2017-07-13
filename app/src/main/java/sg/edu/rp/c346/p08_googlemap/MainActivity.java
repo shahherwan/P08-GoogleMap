@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,6 +19,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,6 +67,15 @@ public class MainActivity extends AppCompatActivity {
                                 "Tel:65433456\n")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.star)));
 
+                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        Toast.makeText(getApplicationContext(),"YOU CLICKED ON "+marker.getTitle(),Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                });
+
+
                 LatLng poi_central = new LatLng(1.297802, 103.847441);
                 Marker central = map.addMarker(new
                         MarkerOptions()
@@ -73,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                                 "Operating hours: 11am-8pm\n" +
                                 "Tel:67788652\n")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+//                Toast.makeText(GoogleMap, "60 Seconds Rest Ended ", Toast.LENGTH_SHORT).show();
 
 
                 LatLng poi_east = new LatLng(1.367149, 103.928021);
