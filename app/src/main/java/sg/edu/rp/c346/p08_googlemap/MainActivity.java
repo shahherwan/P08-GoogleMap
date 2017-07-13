@@ -33,14 +33,14 @@ public class MainActivity extends AppCompatActivity {
         SupportMapFragment mapFragment = (SupportMapFragment)
                 fm.findFragmentById(R.id.map);
 
-        mapFragment.getMapAsync(new OnMapReadyCallback(){
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
 
-//                LatLng poi_CausewayPoint = new LatLng(1.436065, 103.786263);
-//                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_CausewayPoint,
-//                        15));
+                LatLng poi_Singapore = new LatLng(1.3521, 103.8198);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_Singapore,
+                        10));
 
                 UiSettings ui = map.getUiSettings();
                 ui.setCompassEnabled(true);
@@ -55,22 +55,36 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("GMap - Permission", "GPS access has not been granted");
                 }
 
-////                LatLng poi_CausewayPoint = new LatLng(1.436065, 103.786263);
-//                Marker cp = map.addMarker(new
-//                        MarkerOptions()
-//                        .position(poi_CausewayPoint)
-//                        .title("Causeway Point")
-//                        .snippet("Shopping after class")
-//                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-//
-//                LatLng poi_RP = new LatLng(1.44224, 103.785733);
-//                Marker rp = map.addMarker(new
-//                        MarkerOptions()
-//                        .position(poi_RP)
-//                        .title("Republic Polytechnic")
-//                        .snippet("C347 Android Programming II")
-//                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher)));
-//
+                LatLng poi_north = new LatLng(1.449111, 103.818495);
+                Marker north = map.addMarker(new
+                        MarkerOptions()
+                        .position(poi_north)
+                        .title("HQ-North")
+                        .snippet("Block 333, Admiralty Ave 3,\n" + " 765654 Operating hours: 10am-5pm\n" +
+                                "Tel:65433456\n")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.star)));
+
+                LatLng poi_central = new LatLng(1.297802, 103.847441);
+                Marker central = map.addMarker(new
+                        MarkerOptions()
+                        .position(poi_central)
+                        .title("Central")
+                        .snippet("Block 3A, Orchard Ave 3, 134542 \n" +
+                                "Operating hours: 11am-8pm\n" +
+                                "Tel:67788652\n")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+
+                LatLng poi_east = new LatLng(1.367149, 103.928021);
+                Marker east = map.addMarker(new
+                        MarkerOptions()
+                        .position(poi_east)
+                        .title("East")
+                        .snippet("Block 555, Tampines Ave 3, 287788 \n" +
+                                "Operating hours: 9am-5pm\n" +
+                                "Tel:66776677\n")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+
             }
         });
 
@@ -81,27 +95,32 @@ public class MainActivity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (map != null){
-                    map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                }
+
+                LatLng poi_north = new LatLng(1.433240, 103.781218);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_north,
+                        15));
             }
         });
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (map != null){
-                    map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-                }
+
+                LatLng poi_central = new LatLng(1.297802, 103.847441);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_central,
+                        15));
+
             }
         });
 
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (map != null){
-                    map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                }
+
+                LatLng poi_east = new LatLng(1.367149, 103.928021);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_east,
+                        15));
+
             }
         });
     }
