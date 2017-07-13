@@ -7,7 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,12 +23,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.security.AccessController.getContext;
+import static sg.edu.rp.c346.p08_googlemap.R.id.parent;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btn1, btn2, btn3;
     private GoogleMap map;
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +49,7 @@ public class MainActivity extends AppCompatActivity {
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
 
-                LatLng poi_Singapore = new LatLng(1.3521, 103.8198);
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_Singapore,
-                        10));
+
 
                 UiSettings ui = map.getUiSettings();
                 ui.setCompassEnabled(true);
@@ -70,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        Toast.makeText(getApplicationContext(),"YOU CLICKED ON "+marker.getTitle(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "YOU CLICKED ON " + marker.getTitle(), Toast.LENGTH_SHORT).show();
                         return false;
                     }
                 });
@@ -99,43 +105,96 @@ public class MainActivity extends AppCompatActivity {
                                 "Tel:66776677\n")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
 
+
             }
+
         });
 
-        btn1 = (Button) findViewById(R.id.btn1);
-        btn2 = (Button) findViewById(R.id.btn2);
-        btn3 = (Button) findViewById(R.id.btn3);
 
-        btn1.setOnClickListener(new View.OnClickListener() {
+//        btn1 = (Button) findViewById(R.id.btn1);
+//        btn2 = (Button) findViewById(R.id.btn2);
+//        btn3 = (Button) findViewById(R.id.btn3);
+//
+//        btn1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                LatLng poi_north = new LatLng(1.433240, 103.781218);
+//                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_north,
+//                        15));
+//            }
+//        });
+//
+//        btn2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                LatLng poi_central = new LatLng(1.297802, 103.847441);
+//                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_central,
+//                        15));
+//
+//            }
+//        });
+//
+//        btn3.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                LatLng poi_east = new LatLng(1.367149, 103.928021);
+//                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_east,
+//                        15));
+//
+//            }
+//        });
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+
+        List<String> location = new ArrayList<String>();
+        location.add("Select area");
+        location.add("NORTH");
+        location.add("CENTRAL");
+        location.add("EAST");
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, location);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // On selecting a spinner item
+                String item = parent.getItemAtPosition(position).toString();
 
-                LatLng poi_north = new LatLng(1.433240, 103.781218);
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_north,
-                        15));
+                if(item.toString() == "NORTH"){
+                    LatLng poi_north = new LatLng(1.449111, 103.818495);
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_north,
+                            15));
+                } else if(item.toString() == "CENTRAL"){
+                    LatLng poi_central = new LatLng(1.297802, 103.847441);
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_central,
+                            15));
+                }else if(item.toString() == "EAST"){
+                    LatLng poi_east = new LatLng(1.367149, 103.928021);
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_east,
+                            15));
+                }else{
+                    LatLng poi_Singapore = new LatLng(1.3521, 103.8198);
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_Singapore,
+                            10));
+                }
+            }
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
             }
         });
 
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                LatLng poi_central = new LatLng(1.297802, 103.847441);
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_central,
-                        15));
-
-            }
-        });
-
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                LatLng poi_east = new LatLng(1.367149, 103.928021);
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_east,
-                        15));
-
-            }
-        });
     }
+
+
 }
+
